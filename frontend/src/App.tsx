@@ -20,6 +20,7 @@ const CaseList = lazy(() => import('@/pages/CaseList').then(m => ({ default: m.C
 const Setting = lazy(() => import('@/pages/Setting').then(m => ({ default: m.Setting })))
 const UserList = lazy(() => import('@/pages/UserList').then(m => ({ default: m.UserList })))
 const DictList = lazy(() => import('@/pages/DictList').then(m => ({ default: m.DictList })))
+const CourseReader = lazy(() => import('@/pages/CourseReader').then(m => ({ default: m.CourseReader })))
 
 const LoadingFallback = () => (
   <div className="flex items-center justify-center h-full">
@@ -44,6 +45,26 @@ const App: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/oauth/github/callback" element={<GitHubCallback />} />
+        <Route
+          path="/product/read/:productId/:articleId"
+          element={
+            <ProtectedRoute>
+              <Suspense fallback={<LoadingFallback />}>
+                <CourseReader />
+              </Suspense>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/task/read/:productId/:articleId"
+          element={
+            <ProtectedRoute>
+              <Suspense fallback={<LoadingFallback />}>
+                <CourseReader />
+              </Suspense>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/*"
           element={

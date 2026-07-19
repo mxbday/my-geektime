@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { getProductArticles, getArticleInfo, ArticleItem } from '@/api/product'
 import { Button, Spinner } from '@/components/ui'
-import { PlayCircle } from 'lucide-react'
+import { ExternalLink, PlayCircle } from 'lucide-react'
 
 interface ArticleListProps {
   productId: string
@@ -60,6 +60,11 @@ export const ArticleList: React.FC<ArticleListProps> = ({ productId }) => {
     } finally {
       setDetailLoading(false)
     }
+  }
+
+  const handleOpenReader = (event: React.MouseEvent, article: ArticleItem) => {
+    event.stopPropagation()
+    window.open(`/product/read/${productId}/${article.id}`, '_blank', 'noopener,noreferrer')
   }
 
   // 初始化 HLS 播放器
@@ -171,9 +176,20 @@ export const ArticleList: React.FC<ArticleListProps> = ({ productId }) => {
                   {article.article_title.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h5 className="text-sm font-medium text-gray-800 truncate">
-                    {article.article_title}
-                  </h5>
+                  <div className="flex items-start gap-2">
+                    <h5 className="flex-1 text-sm font-medium text-gray-800 truncate">
+                      {article.article_title}
+                    </h5>
+                    <button
+                      type="button"
+                      onClick={(event) => handleOpenReader(event, article)}
+                      className="flex-shrink-0 rounded-md p-1 text-gray-400 hover:bg-white hover:text-primary-600"
+                      title="在新页面阅读"
+                      aria-label={`在新页面阅读 ${article.article_title}`}
+                    >
+                      <ExternalLink size={15} />
+                    </button>
+                  </div>
                   <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                     {article.article_summary}
                   </p>

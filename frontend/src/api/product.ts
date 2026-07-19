@@ -55,7 +55,7 @@ export const getPvipList = (params?: PvipListParams) => {
 }
 
 export interface ArticleItem {
-  id: string
+  id: string | number
   article_title: string
   article_summary: string
   video_size?: number
@@ -67,7 +67,7 @@ export const getProductArticles = (params: { cid: string; page?: number; perPage
   return request.get<any, { rows: ArticleItem[]; count: number }>('/product/articles', { params })
 }
 
-export const getArticleInfo = (id: string) => {
+export const getArticleInfo = (id: string | number) => {
   return request.get('/product/article/info', { params: { id } })
 }
 

@@ -97,6 +97,12 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
     setShowDetail(true)
   }
 
+  const handleOpenReader = (event: React.MouseEvent, lessonId: string) => {
+    event.stopPropagation()
+    if (!selectedTask) return
+    window.open(`/task/read/${selectedTask.task_id}/${lessonId}`, '_blank', 'noopener,noreferrer')
+  }
+
   const handlePrev = async () => {
     const prevGlobalIndex = currentLessonGlobalIndex - 1
     if (prevGlobalIndex >= 0) {
@@ -292,9 +298,20 @@ export const LessonDrawer: React.FC<LessonDrawerProps> = ({
                             {String(globalIndex + 1).padStart(2, '0')}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h5 className="text-sm font-medium text-gray-800 truncate">
-                              {lesson.task_name}
-                            </h5>
+                            <div className="flex items-start gap-2">
+                              <h5 className="flex-1 text-sm font-medium text-gray-800 truncate">
+                                {lesson.task_name}
+                              </h5>
+                              <button
+                                type="button"
+                                onClick={(event) => handleOpenReader(event, lesson.task_id)}
+                                className="flex-shrink-0 rounded-md p-1 text-gray-400 hover:bg-white hover:text-primary-600"
+                                title="在新页面阅读"
+                                aria-label={`在新页面阅读 ${lesson.task_name}`}
+                              >
+                                <ExternalLink size={15} />
+                              </button>
+                            </div>
                             {lesson.subtitle && lesson.subtitle !== '无' && (
                               <p className="text-xs text-gray-500 mt-1 line-clamp-2">
                                 {lesson.subtitle}

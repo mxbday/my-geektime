@@ -3,6 +3,7 @@ import request from '@/utils/request'
 export interface TaskListParams {
   page?: number
   perPage?: number
+  task_pid?: string
   direction?: number
   tag?: number
   product_type?: number
